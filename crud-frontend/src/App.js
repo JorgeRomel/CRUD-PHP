@@ -8,7 +8,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="text-xl font-semibold text-gray-800">
-              Product Management System
+              Gestión de Productos
             </div>
           </div>
         </div>

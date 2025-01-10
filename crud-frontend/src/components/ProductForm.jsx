@@ -54,7 +54,7 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
       </h2>
       
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Name:</label>
+        <label className="block text-gray-700 mb-2">Producto:</label>
         <input
           type="text"
           name="name"
@@ -66,7 +66,7 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Description:</label>
+        <label className="block text-gray-700 mb-2">Descripción:</label>
         <textarea
           name="description"
           value={formData.description}
@@ -77,7 +77,7 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Price:</label>
+        <label className="block text-gray-700 mb-2">Precio:</label>
         <input
           type="number"
           name="price"
@@ -108,7 +108,7 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
           type="submit"
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
         >
-          {editingProduct ? 'Update Product' : 'Add Product'}
+          {editingProduct ? 'Update Product' : 'Añadir Producto'}
         </button>
         
         {editingProduct && (
