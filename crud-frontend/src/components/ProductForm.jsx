@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: '',
     stock: ''
   });
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (editingProduct) {
@@ -17,14 +20,24 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+
     try {
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+
       if (editingProduct) {
         await axios.put(
           `http://localhost:8000/api/products/${editingProduct.id}`,
-          formData
+          formData,
+          config
         );
       } else {
-        await axios.post('http://localhost:8000/api/products', formData);
+        await axios.post('http://localhost:8000/api/products', formData, config);
       }
       
       setFormData({
@@ -37,6 +50,10 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
       onProductSaved();
     } catch (error) {
       console.error('Error saving product:', error);
+      if (error.response?.status === 401) {
+        navigate('/login');
+      }
+      setError(error.response?.data?.message || 'Error al guardar el producto');
     }
   };
 
@@ -50,9 +67,15 @@ const ProductForm = ({ onProductSaved, editingProduct, setEditingProduct }) => {
   return (
     <form onSubmit={handleSubmit} className="max-w-md">
       <h2 className="text-xl font-semibold mb-4">
-        {editingProduct ? 'Edit Product' : 'Add New Product'}
+        {editingProduct ? 'Edit Product' : 'Añadir nuevo Producto'}
       </h2>
       
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
+
       <div className="mb-4">
         <label className="block text-gray-700 mb-2">Producto:</label>
         <input

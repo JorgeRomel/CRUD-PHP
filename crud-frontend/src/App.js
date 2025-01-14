@@ -1,23 +1,33 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import ProductList from './components/ProductList';
+import PrivateRoute from './components/auth/PrivateRoute';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-lg">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-xl font-semibold text-gray-800">
-              Gestión de Productos
-            </div>
-          </div>
+    <Router>
+      <div className="min-h-screen bg-gray-100">
+        <Navbar />
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route 
+              path="/products" 
+              element={
+                <PrivateRoute>
+                  <ProductList />
+                </PrivateRoute>
+              } 
+            />
+            <Route path="/" element={<Navigate to="/products" replace />} />
+          </Routes>
         </div>
-      </nav>
-
-      <main className="max-w-6xl mx-auto py-6 sm:px-6 lg:px-8">
-        <ProductList />
-      </main>
-    </div>
+      </div>
+    </Router>
   );
 }
 
